@@ -1,40 +1,61 @@
-import { createContext, useContext, useMemo, useState } from 'react'
-
-const STORAGE_KEY = 'sfici_history_v1'
-
-function load() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? JSON.parse(raw) : []
-  } catch {
-    return []
-  }
-}
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { api } from '../lib/api.js'
 
 const HistoryContext = createContext(null)
 
 export function HistoryProvider({ children }) {
-  const [items, setItems] = useState(load)
+  const [items, setItems] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    let alive = true
+    api
+      .listHistory(200)
+      .then((rows) => {
+        if (!alive) return
+        setItems(Array.isArray(rows) ? rows : [])
+        setError(null)
+      })
+      .catch((e) => {
+        if (!alive) return
+        setError(e)
+      })
+      .finally(() => {
+        if (!alive) return
+        setLoading(false)
+      })
+    return () => {
+      alive = false
+    }
+  }, [])
 
   const value = useMemo(
     () => ({
       items,
-      add: (entry) => {
-        setItems((prev) => {
-          const next = [entry, ...prev].slice(0, 200)
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
-          return next
-        })
+      loading,
+      error,
+      add: async (entry) => {
+        const created = await api.addHistory(entry)
+        setItems((prev) => [created, ...prev].slice(0, 200))
+        setError(null)
+        return created
       },
-      updateStatus: (id, estado) => {
-        setItems((prev) => {
-          const next = prev.map((x) => (x.id === id ? { ...x, estado } : x))
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
-          return next
-        })
+      updateStatus: async (id, estado) => {
+        setItems((prev) => prev.map((x) => (x.id === id ? { ...x, estado } : x)))
+        try {
+          await api.patchHistoryStatus(id, estado)
+          setError(null)
+        } catch (e) {
+          setError(e)
+          // best-effort refresh to reconcile
+          const rows = await api.listHistory(200)
+          setItems(Array.isArray(rows) ? rows : [])
+          throw e
+        }
       },
     }),
-    [items],
+    [items, loading, error],
   )
 
   return <HistoryContext.Provider value={value}>{children}</HistoryContext.Provider>

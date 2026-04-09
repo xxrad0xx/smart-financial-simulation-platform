@@ -1,6 +1,5 @@
-import { createContext, useContext, useMemo, useState } from 'react'
-
-const STORAGE_KEY = 'sfici_institution_v1'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { api } from '../lib/api.js'
 
 const defaultProfile = {
   nombre: 'Institución Financiera Demo',
@@ -16,37 +15,64 @@ const defaultProfile = {
   logoDataUrl: null,
 }
 
-function loadProfile() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return defaultProfile
-    return { ...defaultProfile, ...JSON.parse(raw) }
-  } catch {
-    return defaultProfile
-  }
-}
-
 const InstitutionalContext = createContext(null)
 
 export function InstitutionalProvider({ children }) {
-  const [profile, setProfile] = useState(loadProfile)
+  const [profile, setProfile] = useState(defaultProfile)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    let alive = true
+    api
+      .getInstitutionProfile()
+      .then((p) => {
+        if (!alive) return
+        setProfile({ ...defaultProfile, ...p })
+        setError(null)
+      })
+      .catch((e) => {
+        if (!alive) return
+        setError(e)
+      })
+      .finally(() => {
+        if (!alive) return
+        setLoading(false)
+      })
+    return () => {
+      alive = false
+    }
+  }, [])
 
   const value = useMemo(
     () => ({
       profile,
+      loading,
+      error,
       setProfile: (next) => {
         setProfile((p) => {
           const merged = typeof next === 'function' ? next(p) : { ...p, ...next }
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(merged))
+          api
+            .putInstitutionProfile(merged)
+            .then((saved) => {
+              setProfile({ ...defaultProfile, ...saved })
+              setError(null)
+            })
+            .catch((e) => setError(e))
           return merged
         })
       },
       reset: () => {
-        localStorage.removeItem(STORAGE_KEY)
-        setProfile(defaultProfile)
+        api
+          .putInstitutionProfile(defaultProfile)
+          .then((saved) => {
+            setProfile({ ...defaultProfile, ...saved })
+            setError(null)
+          })
+          .catch((e) => setError(e))
       },
     }),
-    [profile],
+    [profile, loading, error],
   )
 
   return (
