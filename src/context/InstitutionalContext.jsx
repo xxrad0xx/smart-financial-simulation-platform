@@ -10,8 +10,8 @@ const defaultProfile = {
   lema: 'Tu aliado en crédito e inversión',
   pieDocumentos:
     'Este documento es referencial. Las condiciones definitivas se formalizan en el contrato respectivo.',
-  colorPrimario: '#0284c7',
-  colorSecundario: '#0f172a',
+  colorPrimario: '#0A2540',
+  colorSecundario: '#0F2A44',
   logoDataUrl: null,
 }
 

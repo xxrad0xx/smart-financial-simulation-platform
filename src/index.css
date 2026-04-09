@@ -4,12 +4,18 @@
   --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
   --font-display: 'Outfit', var(--font-sans);
 
-  --color-sfici-ink: #0f172a;
-  --color-sfici-muted: #64748b;
-  --color-sfici-surface: #f8fafc;
-  --color-sfici-border: #e2e8f0;
-  --color-sfici-accent: #0ea5e9;
-  --color-sfici-accent-deep: #0369a1;
+  /* Corporate fintech palette */
+  --color-sfici-primary: #0A2540; /* Trust Blue */
+  --color-sfici-secondary: #0F2A44; /* Deep Blue Background */
+  --color-sfici-accent: #16A34A; /* Money Green */
+  --color-sfici-accent-hover: #15803D;
+  --color-sfici-premium: #D4AF37; /* use subtly */
+
+  --color-sfici-text: #E5E7EB;
+  --color-sfici-text-muted: #9CA3AF;
+
+  --color-sfici-card: rgba(255,255,255,0.03);
+  --color-sfici-card-border: rgba(255,255,255,0.08);
 }
 
 @layer base {
