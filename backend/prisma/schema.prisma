@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model InstitutionalProfile {
+  id             String   @id @default("default")
+  nombre         String
+  ruc            String
+  direccion      String
+  telefonos      String
+  email          String
+  lema           String
+  pieDocumentos  String
+  colorPrimario  String
+  colorSecundario String
+  logoDataUrl    String?
+  updatedAt      DateTime @updatedAt
+}
+
+model CreditProduct {
+  id               String   @id
+  nombre           String
+  tasaAnual        Float
+  tasaMoratoria    Float
+  montoMin         Float
+  montoMax         Float
+  plazoMinMeses    Int
+  plazoMaxMeses    Int
+  periodicidades   String   // JSON array
+  porcentajeEntrada Float
+  cobrosIds        String   // JSON array
+  activo           Boolean  @default(true)
+  updatedAt        DateTime @updatedAt
+}
+
+model Charge {
+  id          String   @id
+  nombre      String
+  tipo        String
+  valor       Float
+  frecuencia  String
+  naturaleza  String
+  updatedAt   DateTime @updatedAt
+}
+
+model InvestmentProduct {
+  id                 String   @id
+  nombre             String
+  tasaAnual          Float
+  montoMin           Float
+  plazoMeses         String   // JSON array
+  capitalizacion     String
+  penalizacionRetiro Float
+  impuesto           Float
+  renovacionAuto     Boolean  @default(false)
+  updatedAt          DateTime @updatedAt
+}
+
+model SimulationHistory {
+  id          String   @id
+  fecha       DateTime
+  usuario     String
+  tipoCredito String
+  monto       Float
+  metodo      String
+  totalPagar  Float
+  estado      String
+  payload     String?  // optional JSON for future details
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
