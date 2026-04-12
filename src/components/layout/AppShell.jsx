@@ -201,8 +201,8 @@ export default function AppShell({ mode }) {
             }}
           />
         )}
-        <div className="relative">
-        <Outlet />
+        <div className={isAdmin ? 'relative z-10 text-slate-900' : 'relative z-10'}>
+          <Outlet />
         </div>
       </main>
     </div>
