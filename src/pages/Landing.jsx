@@ -185,7 +185,7 @@ export default function Landing() {
               <div className="relative space-y-4">
                 <div className="space-y-1">
                   <p className="text-sm font-semibold text-slate-900">Accesos</p>
-                  <p className="text-xs text-slate-600">Accede según tu perfil y comienza a operar.</p>
+                  <p className="text-xs text-slate-600">Accede según tu perfil y comienza ya.</p>
                 </div>
 
                 <div className="grid gap-4">
@@ -228,7 +228,7 @@ export default function Landing() {
               </div>
 
               <div className="mt-4 flex flex-wrap items-center gap-2">
-                {['Configuración activa', '3 productos disponibles', 'Tasas y cobros vigentes'].map((t) => (
+                {['Configuración', 'Tipos de Créditos', 'Cobros'].map((t) => (
                   <span
                     key={t}
                     className="inline-flex items-center gap-2 text-[11px] font-medium leading-none text-slate-500"
@@ -247,7 +247,7 @@ export default function Landing() {
                     boxShadow: '0 10px 30px rgba(0,0,0,0.18)',
                   }}
                 >
-                  Acceder como Administrador →
+                  Acceder como Administrador
                 </span>
               </div>
             </motion.button>
@@ -291,7 +291,7 @@ export default function Landing() {
               </div>
 
               <div className="mt-4 flex flex-wrap items-center gap-2">
-                {['Simulaciones en tiempo real', 'Exportación PDF habilitada', 'Historial disponible'].map((t) => (
+                {['Simulaciones en tiempo real', 'Inversiones', 'Historial-Exportación PDF'].map((t) => (
                   <span
                     key={t}
                     className="inline-flex items-center gap-2 text-[11px] font-medium leading-none text-slate-500"
@@ -310,7 +310,7 @@ export default function Landing() {
                     boxShadow: '0 10px 30px rgba(0,0,0,0.18)',
                   }}
                 >
-                  Simular como Cliente →
+                  Acceder como Cliente
                 </span>
               </div>
             </motion.button>

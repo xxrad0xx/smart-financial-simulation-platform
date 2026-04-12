@@ -55,7 +55,6 @@ export default function HeroArt() {
         <g transform="translate(24 96)" opacity="0.55">
           {[0, 1, 2, 3].map((i) => (
             <line
-              // eslint-disable-next-line react/no-array-index-key
               key={i}
               x1="0"
               x2="452"
@@ -67,7 +66,6 @@ export default function HeroArt() {
           ))}
           {[0, 1, 2, 3, 4].map((i) => (
             <line
-              // eslint-disable-next-line react/no-array-index-key
               key={`v${i}`}
               y1="0"
               y2="184"
