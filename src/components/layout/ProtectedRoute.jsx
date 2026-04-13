@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext.jsx'
  * Protects a route by role.
  * - While loading auth, shows a spinner.
  * - If not authenticated, redirects to /login.
- * - If authenticated but wrong role, redirects to the correct panel.
+ * - If authenticated but wrong role, redirects to /login for that role.
  */
 export default function ProtectedRoute({ role, children }) {
   const { user, loading, isAuthenticated } = useAuth()
@@ -22,12 +22,11 @@ export default function ProtectedRoute({ role, children }) {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
+    return <Navigate to={role ? `/login?role=${role}` : '/login'} replace />
   }
 
   if (role && user.role !== role) {
-    const dest = user.role === 'admin' ? '/admin' : '/cliente'
-    return <Navigate to={dest} replace />
+    return <Navigate to={`/login?role=${role}`} replace />
   }
 
   return children
@@ -38,8 +37,8 @@ export default function ProtectedRoute({ role, children }) {
  * Redirects to /login if not authenticated, but does NOT enforce role
  * (used inside already-public route groups like /cliente).
  */
-export function RequireAuth({ children }) {
-  const { loading, isAuthenticated } = useAuth()
+export function RequireAuth({ role, children }) {
+  const { user, loading, isAuthenticated } = useAuth()
 
   if (loading) {
     return (
@@ -50,7 +49,11 @@ export function RequireAuth({ children }) {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
+    return <Navigate to={role ? `/login?role=${role}` : '/login'} replace />
+  }
+
+  if (role && user?.role !== role) {
+    return <Navigate to={`/login?role=${role}`} replace />
   }
 
   return children

@@ -55,7 +55,8 @@ export default function RequestDetail() {
     { label: 'Declaración de impuestos', data: req.docDeclaracionImpuestos },
   ].filter((d) => d.data)
 
-  const inputClass = 'mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-sky-400 focus:outline-none focus:ring-1 focus:ring-sky-400'
+  const inputClass =
+    'mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition focus:border-emerald-300 focus:ring-4 focus:ring-emerald-500/10'
 
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
@@ -69,7 +70,7 @@ export default function RequestDetail() {
         <div className="space-y-5">
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Datos del cliente</h3>
-            <div className="mt-2 rounded-xl bg-slate-50 p-4 text-sm space-y-1">
+            <div className="mt-2 rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm ring-1 ring-slate-900/5 space-y-1">
               <div><strong>Nombres:</strong> {req.nombres} {req.apellidos}</div>
               <div><strong>Cédula:</strong> {req.cedula}</div>
               <div><strong>Email:</strong> {req.email}</div>
@@ -85,7 +86,7 @@ export default function RequestDetail() {
 
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Crédito solicitado</h3>
-            <div className="mt-2 rounded-xl bg-slate-50 p-4 text-sm space-y-1">
+            <div className="mt-2 rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm ring-1 ring-slate-900/5 space-y-1">
               <div><strong>Producto:</strong> {req.productoNombre}</div>
               <div><strong>Monto:</strong> {formatCurrency(req.monto)}</div>
               <div><strong>Plazo:</strong> {req.plazoMeses} meses ({req.periodicidad})</div>
@@ -101,15 +102,24 @@ export default function RequestDetail() {
         <div className="space-y-5">
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Validación biométrica</h3>
-            <div className={['mt-2 rounded-xl border p-4', req.biometriaAprobada ? 'border-green-200 bg-green-50' : 'border-orange-200 bg-orange-50'].join(' ')}>
+            <div
+              className={[
+                'mt-2 rounded-2xl border p-4 shadow-sm ring-1 ring-slate-900/5',
+                req.biometriaAprobada ? 'border-emerald-200 bg-emerald-50/60' : 'border-amber-200 bg-amber-50/60',
+              ].join(' ')}
+            >
               <div className="flex items-center gap-3">
                 {req.docCedulaFrontal && <img src={req.docCedulaFrontal} alt="Cédula" className="h-16 w-16 rounded-lg object-cover" />}
                 {req.selfieBase64 && <img src={req.selfieBase64} alt="Selfie" className="h-16 w-16 rounded-full object-cover" />}
                 <div className="text-sm">
-                  <p className="font-semibold" style={{ color: req.biometriaAprobada ? '#166534' : '#9a3412' }}>
+                  <p className="font-semibold" style={{ color: req.biometriaAprobada ? '#166534' : '#92400e' }}>
                     {req.biometriaAprobada ? '✓ Aprobado' : '⚠ Observación'}
                   </p>
-                  {nivelSimilitud != null && <p style={{ color: req.biometriaAprobada ? '#15803d' : '#c2410c' }}>Coincidencia: {nivelSimilitud}</p>}
+                  {nivelSimilitud != null && (
+                    <p style={{ color: req.biometriaAprobada ? '#15803d' : '#b45309' }}>
+                      Coincidencia: {nivelSimilitud}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -119,9 +129,18 @@ export default function RequestDetail() {
             <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Documentos</h3>
             <div className="mt-2 space-y-2">
               {documentos.map((d) => (
-                <div key={d.label} className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 text-sm">
+                <div
+                  key={d.label}
+                  className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm ring-1 ring-slate-900/5"
+                >
                   <span>{d.label}</span>
-                  <button type="button" className="text-sky-600 hover:underline" onClick={() => setDocModal(d)}>Ver</button>
+                  <button
+                    type="button"
+                    className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
+                    onClick={() => setDocModal(d)}
+                  >
+                    Ver
+                  </button>
                 </div>
               ))}
             </div>
@@ -129,7 +148,7 @@ export default function RequestDetail() {
 
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Acción del asesor</h3>
-            <div className="mt-2 space-y-3">
+            <div className="mt-2 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm ring-1 ring-slate-900/5 space-y-3">
               <label className="block text-sm">
                 <span className="text-slate-600">Cambiar estado</span>
                 <select className={inputClass} value={estado} onChange={(e) => setEstado(e.target.value)}>
@@ -140,7 +159,13 @@ export default function RequestDetail() {
                 <span className="text-slate-600">Notas / observaciones</span>
                 <textarea className={inputClass} rows={3} value={notas} onChange={(e) => setNotas(e.target.value)} placeholder="Ingrese observaciones para el cliente..." />
               </label>
-              <button type="button" disabled={saving} className="rounded-lg px-5 py-2 text-sm font-medium text-white disabled:opacity-50" style={{ backgroundColor: 'var(--sfici-primary)' }} onClick={handleSave}>
+              <button
+                type="button"
+                disabled={saving}
+                className="rounded-lg px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:brightness-95 disabled:opacity-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/15"
+                style={{ backgroundColor: 'var(--sfici-primary)' }}
+                onClick={handleSave}
+              >
                 {saving ? 'Guardando...' : 'Guardar decisión'}
               </button>
             </div>
@@ -151,7 +176,7 @@ export default function RequestDetail() {
       {/* Document modal */}
       {docModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" onClick={() => setDocModal(null)}>
-          <div className="max-h-[90vh] max-w-2xl overflow-auto rounded-xl bg-white p-4" onClick={(e) => e.stopPropagation()}>
+          <div className="max-h-[90vh] max-w-2xl overflow-auto rounded-2xl bg-white p-4 shadow-xl ring-1 ring-slate-900/10" onClick={(e) => e.stopPropagation()}>
             <div className="mb-3 flex items-center justify-between">
               <h3 className="font-medium">{docModal.label}</h3>
               <button type="button" className="text-sm text-slate-500 hover:text-slate-800" onClick={() => setDocModal(null)}>Cerrar</button>

@@ -63,17 +63,22 @@ export default function StepRevision() {
         Su solicitud ha sido recibida y se encuentra en cola de revisión por un asesor de la institución.
       </p>
 
-      <div className="mx-auto max-w-sm rounded-xl bg-slate-50 p-4 text-left text-sm">
+      <div className="mx-auto max-w-sm rounded-2xl border border-slate-200 bg-white p-4 text-left text-sm shadow-sm ring-1 ring-slate-900/5">
         <div><strong>Solicitud:</strong> {requestId ? `#${requestId.slice(0, 8)}` : '—'}</div>
         <div><strong>Producto:</strong> {ctx.productoNombre || '—'}</div>
         <div><strong>Monto:</strong> {formatCurrency(ctx.monto)}</div>
         <div className="flex items-center gap-2">
           <strong>Estado:</strong>
-          <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${badgeClass}`}>{ctx.estado}</span>
+          <span className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${badgeClass}`}>{ctx.estado}</span>
         </div>
       </div>
 
-      <button type="button" disabled={refreshing} className="rounded-lg border border-slate-200 px-4 py-2 text-sm disabled:opacity-50" onClick={refreshStatus}>
+      <button
+        type="button"
+        disabled={refreshing}
+        className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:opacity-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
+        onClick={refreshStatus}
+      >
         {refreshing ? 'Consultando...' : 'Actualizar estado'}
       </button>
     </div>

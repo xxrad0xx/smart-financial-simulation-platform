@@ -21,7 +21,7 @@ export default function StepConfirmacion() {
         <p className="mt-1 text-sm text-slate-600">Revise el resumen y acepte las condiciones.</p>
       </div>
 
-      <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
+      <div className="rounded-2xl border border-amber-200/70 bg-amber-50/60 p-5 shadow-sm ring-1 ring-slate-900/5">
         <h3 className="font-semibold text-amber-900">Resumen de la solicitud</h3>
         <div className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
           <div><span className="text-amber-800/70">Cliente:</span> <strong className="text-amber-900">{ctx.nombres} {ctx.apellidos}</strong></div>
@@ -39,7 +39,12 @@ export default function StepConfirmacion() {
       <div className="space-y-3">
         {checks.map((c) => (
           <label key={c.key} className="flex items-start gap-3 text-sm">
-            <input type="checkbox" checked={ctx[c.key]} onChange={(e) => updateField(c.key, e.target.checked)} className="mt-0.5 h-4 w-4 rounded border-slate-300" />
+            <input
+              type="checkbox"
+              checked={ctx[c.key]}
+              onChange={(e) => updateField(c.key, e.target.checked)}
+              className="mt-0.5 h-4 w-4 accent-emerald-600"
+            />
             <span className="text-slate-700">{c.label}</span>
           </label>
         ))}
@@ -48,8 +53,22 @@ export default function StepConfirmacion() {
       {!allAccepted && <p className="text-xs text-amber-600">Debe aceptar todas las condiciones para continuar.</p>}
 
       <div className="flex justify-between">
-        <button type="button" className="rounded-lg border border-slate-200 px-5 py-2 text-sm" onClick={() => setStep(4)}>Anterior</button>
-        <button type="button" disabled={!allAccepted} className="rounded-lg px-5 py-2 text-sm font-medium text-white disabled:opacity-50" style={{ backgroundColor: 'var(--sfici-primary)' }} onClick={() => setStep(6)}>Siguiente</button>
+        <button
+          type="button"
+          className="rounded-lg border border-slate-200 bg-white px-5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
+          onClick={() => setStep(4)}
+        >
+          Anterior
+        </button>
+        <button
+          type="button"
+          disabled={!allAccepted}
+          className="rounded-lg px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:brightness-95 disabled:opacity-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/15"
+          style={{ backgroundColor: 'var(--sfici-primary)' }}
+          onClick={() => setStep(6)}
+        >
+          Siguiente
+        </button>
       </div>
     </div>
   )

@@ -42,7 +42,7 @@ export default function StepDatosPersonales() {
   }
 
   const inputClass =
-    'mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-sky-400 focus:outline-none focus:ring-1 focus:ring-sky-400'
+    'mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition focus:border-emerald-300 focus:ring-4 focus:ring-emerald-500/10'
 
   return (
     <div className="space-y-5">
@@ -75,8 +75,21 @@ export default function StepDatosPersonales() {
         ))}
       </div>
       <div className="flex justify-between">
-        <button type="button" className="rounded-lg border border-slate-200 px-5 py-2 text-sm" onClick={() => setStep(1)}>Anterior</button>
-        <button type="button" className="rounded-lg px-5 py-2 text-sm font-medium text-white" style={{ backgroundColor: 'var(--sfici-primary)' }} onClick={() => validate() && setStep(3)}>Siguiente</button>
+        <button
+          type="button"
+          className="rounded-lg border border-slate-200 bg-white px-5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
+          onClick={() => setStep(1)}
+        >
+          Anterior
+        </button>
+        <button
+          type="button"
+          className="rounded-lg px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:brightness-95 focus:outline-none focus:ring-4 focus:ring-emerald-500/15"
+          style={{ backgroundColor: 'var(--sfici-primary)' }}
+          onClick={() => validate() && setStep(3)}
+        >
+          Siguiente
+        </button>
       </div>
     </div>
   )

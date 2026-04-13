@@ -19,7 +19,13 @@ export default function StepResultado() {
     return (
       <div className="py-8 text-center">
         <p className="text-sm text-slate-600">Su solicitud aún no tiene un resultado final.</p>
-        <button type="button" className="mt-4 rounded-lg border px-4 py-2 text-sm" onClick={() => setStep(8)}>Ver estado</button>
+        <button
+          type="button"
+          className="mt-4 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
+          onClick={() => setStep(8)}
+        >
+          Ver estado
+        </button>
       </div>
     )
   }
@@ -39,7 +45,7 @@ export default function StepResultado() {
       </p>
 
       {ctx.notasAsesor && (
-        <div className={['mx-auto max-w-md rounded-xl border p-4 text-left text-sm', isApproved ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'].join(' ')}>
+        <div className={['mx-auto max-w-md rounded-2xl border p-4 text-left text-sm shadow-sm ring-1 ring-slate-900/5', isApproved ? 'border-emerald-200 bg-emerald-50/60' : 'border-red-200 bg-red-50/60'].join(' ')}>
           <p className="font-medium" style={{ color: isApproved ? '#166534' : '#991b1b' }}>
             {isApproved ? 'Notas del asesor:' : 'Motivo:'}
           </p>
@@ -47,7 +53,12 @@ export default function StepResultado() {
         </div>
       )}
 
-      <button type="button" className="rounded-lg px-5 py-2 text-sm font-medium text-white" style={{ backgroundColor: 'var(--sfici-primary)' }} onClick={resetRequest}>
+      <button
+        type="button"
+        className="rounded-lg px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:brightness-95 focus:outline-none focus:ring-4 focus:ring-emerald-500/15"
+        style={{ backgroundColor: 'var(--sfici-primary)' }}
+        onClick={resetRequest}
+      >
         Nueva solicitud
       </button>
     </div>

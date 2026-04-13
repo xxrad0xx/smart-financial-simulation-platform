@@ -46,7 +46,15 @@ export default function StepDocumentos() {
           const isImage = value && value.startsWith('data:image')
 
           return (
-            <div key={d.key} className={['rounded-xl border-2 border-dashed p-5 text-center transition', value ? 'border-green-300 bg-green-50/50' : 'border-slate-200'].join(' ')}>
+            <div
+              key={d.key}
+              className={[
+                'rounded-2xl border border-dashed p-5 text-center shadow-sm ring-1 ring-slate-900/5 transition',
+                value
+                  ? 'border-emerald-300 bg-emerald-50/30'
+                  : 'border-slate-200 bg-white hover:bg-slate-50/40',
+              ].join(' ')}
+            >
               <h3 className="font-medium text-slate-900">
                 {d.label} {isRequired && <span className="text-red-500">*</span>}
               </h3>
@@ -54,12 +62,18 @@ export default function StepDocumentos() {
 
               {value ? (
                 <div className="mt-3 space-y-2">
-                  {isImage && <img src={value} alt={d.label} className="mx-auto max-h-32 rounded-lg object-contain" />}
-                  <p className="text-xs text-green-700">{getFileName(value)}</p>
-                  <button type="button" className="text-xs text-red-500 hover:underline" onClick={() => updateField(d.key, null)}>Eliminar</button>
+                  {isImage && <img src={value} alt={d.label} className="mx-auto max-h-32 rounded-xl object-contain shadow-sm ring-1 ring-slate-900/5" />}
+                  <p className="text-xs font-medium text-emerald-700">{getFileName(value)}</p>
+                  <button
+                    type="button"
+                    className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-red-600 shadow-sm transition hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-red-500/10"
+                    onClick={() => updateField(d.key, null)}
+                  >
+                    Eliminar
+                  </button>
                 </div>
               ) : (
-                <label className="mt-3 inline-block cursor-pointer rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 hover:bg-slate-50">
+                <label className="mt-3 inline-block cursor-pointer rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus-within:ring-4 focus-within:ring-emerald-500/10">
                   Seleccionar archivo
                   <input type="file" accept="image/*,.pdf" className="hidden" onChange={(e) => handleFile(d.key, e.target.files?.[0])} />
                 </label>
@@ -70,8 +84,22 @@ export default function StepDocumentos() {
       </div>
 
       <div className="flex justify-between">
-        <button type="button" className="rounded-lg border border-slate-200 px-5 py-2 text-sm" onClick={() => setStep(5)}>Anterior</button>
-        <button type="button" disabled={!canAdvance} className="rounded-lg px-5 py-2 text-sm font-medium text-white disabled:opacity-50" style={{ backgroundColor: 'var(--sfici-primary)' }} onClick={() => setStep(7)}>Siguiente</button>
+        <button
+          type="button"
+          className="rounded-lg border border-slate-200 bg-white px-5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
+          onClick={() => setStep(5)}
+        >
+          Anterior
+        </button>
+        <button
+          type="button"
+          disabled={!canAdvance}
+          className="rounded-lg px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:brightness-95 disabled:opacity-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/15"
+          style={{ backgroundColor: 'var(--sfici-primary)' }}
+          onClick={() => setStep(7)}
+        >
+          Siguiente
+        </button>
       </div>
     </div>
   )

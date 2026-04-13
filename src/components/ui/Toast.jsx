@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 const VARIANTS = {
-  success: 'bg-green-600 text-white',
+  success: 'bg-emerald-600 text-white',
   error: 'bg-red-600 text-white',
   info: 'bg-slate-800 text-white',
 }
@@ -51,7 +51,7 @@ function ToastItem({ toast, onDone }) {
     <div
       role="status"
       className={[
-        'pointer-events-auto flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-medium shadow-lg transition-all duration-300',
+        'pointer-events-auto flex items-center gap-2 rounded-2xl px-4 py-3 text-sm font-medium shadow-lg ring-1 ring-slate-900/10 transition-all duration-300',
         VARIANTS[toast.variant] || VARIANTS.info,
         visible ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0',
       ].join(' ')}

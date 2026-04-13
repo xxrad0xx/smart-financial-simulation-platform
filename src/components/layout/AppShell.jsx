@@ -16,7 +16,7 @@ const clientLinks = [
   { to: '/cliente', label: 'Inicio', end: true },
   { to: '/cliente/simulacion', label: 'Simulación de crédito' },
   { to: '/cliente/inversion', label: 'Inversiones' },
-  { to: '/cliente/historial', label: 'Historial' },
+  { to: '/cliente/historial', label: 'Historial', auth: true },
   { to: '/cliente/solicitud', label: 'Solicitud en línea', auth: true },
   { to: '/cliente/solicitudes', label: 'Mis solicitudes', auth: true },
 ]
@@ -28,6 +28,7 @@ export default function AppShell({ mode }) {
   const links = mode === 'admin' ? adminLinks : clientLinks
   const title = mode === 'admin' ? 'Panel administrador' : 'Portal cliente'
   const isAdmin = mode === 'admin'
+  const isRoleMatch = isAuthenticated && user ? (isAdmin ? user.role === 'admin' : user.role === 'client') : false
 
   const handleLogout = () => {
     logout()
@@ -136,7 +137,7 @@ export default function AppShell({ mode }) {
 
           {/* User info / login section */}
           <div className="mt-auto border-t border-slate-100 pt-4">
-            {isAuthenticated ? (
+            {isRoleMatch ? (
               <>
                 <div className="mb-2 rounded-lg bg-slate-50 px-3 py-2">
                   <p className="truncate text-sm font-medium text-slate-800">{displayName}</p>
@@ -154,7 +155,7 @@ export default function AppShell({ mode }) {
               </>
             ) : (
               <Link
-                to="/login?role=client"
+                to={isAdmin ? '/login?role=admin' : '/login?role=client'}
                 className="flex w-full items-center justify-center rounded-lg px-3 py-2 text-sm font-medium text-white transition"
                 style={{ backgroundColor: 'var(--sfici-primary)' }}
               >
@@ -171,36 +172,31 @@ export default function AppShell({ mode }) {
           isAdmin ? 'bg-slate-50' : 'bg-slate-50',
         ].join(' ')}
       >
-        {isAdmin && (
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background: '#f8fafc',
-            }}
-          />
-        )}
-        {isAdmin && (
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              opacity: 0.10,
-              backgroundImage: `url("/pattern-money.png")`,
-              backgroundRepeat: 'repeat',
-              backgroundSize: '320px 320px',
-              mixBlendMode: 'multiply',
-              filter: 'blur(0.15px)',
-            }}
-          />
-        )}
-        {isAdmin && (
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                'radial-gradient(circle at 70% 20%, rgba(22,163,74,0.08), transparent 55%), radial-gradient(circle at 10% 0%, rgba(212,175,55,0.05), transparent 60%)',
-            }}
-          />
-        )}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: '#f8fafc',
+          }}
+        />
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            opacity: isAdmin ? 0.10 : 0.07,
+            backgroundImage: `url("/pattern-money.png")`,
+            backgroundRepeat: 'repeat',
+            backgroundSize: '320px 320px',
+            mixBlendMode: 'multiply',
+            filter: 'blur(0.15px)',
+          }}
+        />
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: isAdmin
+              ? 'radial-gradient(circle at 70% 20%, rgba(22,163,74,0.08), transparent 55%), radial-gradient(circle at 10% 0%, rgba(212,175,55,0.05), transparent 60%)'
+              : 'radial-gradient(circle at 70% 20%, rgba(22,163,74,0.06), transparent 55%), radial-gradient(circle at 10% 0%, rgba(212,175,55,0.04), transparent 60%)',
+          }}
+        />
         <div className={isAdmin ? 'relative z-10 text-slate-900' : 'relative z-10'}>
           <Outlet />
         </div>

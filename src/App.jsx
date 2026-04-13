@@ -4,6 +4,7 @@ import ProtectedRoute, { RequireAuth } from './components/layout/ProtectedRoute.
 import Landing from './pages/Landing.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
+import VerifySimulation from './pages/VerifySimulation.jsx'
 import AdminHome from './pages/admin/AdminHome.jsx'
 import ChargesAdmin from './pages/admin/ChargesAdmin.jsx'
 import CreditProductsAdmin from './pages/admin/CreditProductsAdmin.jsx'
@@ -48,10 +49,15 @@ export default function App() {
         <Route index element={<ClientHome />} />
         <Route path="simulacion" element={<CreditSimulation />} />
         <Route path="inversion" element={<InvestmentSimulation />} />
-        <Route path="historial" element={<History />} />
+        <Route path="historial" element={<RequireAuth role="client"><History /></RequireAuth>} />
         {/* These require login — they handle personal client data */}
-        <Route path="solicitud" element={<RequireAuth><RequestFlow /></RequireAuth>} />
-        <Route path="solicitudes" element={<RequireAuth><ClientRequests /></RequireAuth>} />
+        <Route path="solicitud" element={<RequireAuth role="client"><RequestFlow /></RequireAuth>} />
+        <Route path="solicitudes" element={<RequireAuth role="client"><ClientRequests /></RequireAuth>} />
+      </Route>
+
+      {/* QR verification */}
+      <Route path="/verificar/:id" element={<AppShell mode="client" />}>
+        <Route index element={<VerifySimulation />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

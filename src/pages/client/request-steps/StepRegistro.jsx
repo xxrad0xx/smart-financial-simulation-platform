@@ -70,7 +70,7 @@ export default function StepRegistro() {
         </p>
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-slate-50 p-5">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm ring-1 ring-slate-900/5">
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
             <span className="text-xs font-medium uppercase text-slate-500">Cédula</span>
@@ -105,7 +105,7 @@ export default function StepRegistro() {
         <button
           type="button"
           disabled={checking}
-          className="rounded-lg px-5 py-2 text-sm font-medium text-white disabled:opacity-50"
+          className="rounded-lg px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:brightness-95 disabled:opacity-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/15"
           style={{ backgroundColor: 'var(--sfici-primary)' }}
           onClick={handleNext}
         >

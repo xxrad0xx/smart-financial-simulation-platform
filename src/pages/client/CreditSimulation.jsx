@@ -45,6 +45,7 @@ export default function CreditSimulation() {
   const [optionalIds, setOptionalIds] = useState([])
 
   const simulationId = useMemo(() => crypto.randomUUID(), [])
+  const verifyUrl = useMemo(() => `${window.location.origin}/verificar/${simulationId}`, [simulationId])
 
   const periodicityForCalc = useMemo(() => {
     if (!product) return periodicity
@@ -152,12 +153,12 @@ export default function CreditSimulation() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm ring-1 ring-slate-900/5">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Parámetros</h2>
           <label className="block text-sm">
             <span className="text-slate-600">Tipo de crédito</span>
             <select
-              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2"
+              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition focus:border-emerald-300 focus:ring-4 focus:ring-emerald-500/10"
               value={productId}
               onChange={(e) => {
                 setProductId(e.target.value)
@@ -176,7 +177,7 @@ export default function CreditSimulation() {
             <span className="text-slate-600">Monto solicitado</span>
             <input
               type="number"
-              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2"
+              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm tabular-nums text-slate-900 shadow-sm outline-none transition focus:border-emerald-300 focus:ring-4 focus:ring-emerald-500/10"
               value={monto}
               min={product.montoMin}
               max={product.montoMax}
@@ -187,7 +188,7 @@ export default function CreditSimulation() {
             <span className="text-slate-600">Plazo (meses)</span>
             <input
               type="number"
-              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2"
+              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm tabular-nums text-slate-900 shadow-sm outline-none transition focus:border-emerald-300 focus:ring-4 focus:ring-emerald-500/10"
               value={plazoMeses}
               min={product.plazoMinMeses}
               max={product.plazoMaxMeses}
@@ -197,7 +198,7 @@ export default function CreditSimulation() {
           <label className="block text-sm">
             <span className="text-slate-600">Periodicidad de pago</span>
             <select
-              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2"
+              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition focus:border-emerald-300 focus:ring-4 focus:ring-emerald-500/10"
               value={periodicityForCalc}
               onChange={(e) => setPeriodicity(e.target.value)}
             >
@@ -211,7 +212,7 @@ export default function CreditSimulation() {
           <label className="block text-sm">
             <span className="text-slate-600">Método de amortización</span>
             <select
-              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2"
+              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition focus:border-emerald-300 focus:ring-4 focus:ring-emerald-500/10"
               value={method}
               onChange={(e) => setMethod(e.target.value)}
             >
@@ -223,7 +224,7 @@ export default function CreditSimulation() {
             <span className="text-slate-600">Fecha de inicio</span>
             <input
               type="date"
-              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2"
+              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition focus:border-emerald-300 focus:ring-4 focus:ring-emerald-500/10"
               value={fechaInicio}
               onChange={(e) => setFechaInicio(e.target.value)}
             />
@@ -235,7 +236,7 @@ export default function CreditSimulation() {
               <label key={f} className="mt-2 block text-sm capitalize">
                 <span className="text-slate-600">{f}</span>
                 <input
-                  className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2"
+                  className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition focus:border-emerald-300 focus:ring-4 focus:ring-emerald-500/10"
                   value={cliente[f]}
                   onChange={(e) => setCliente({ ...cliente, [f]: e.target.value })}
                 />
@@ -258,8 +259,9 @@ export default function CreditSimulation() {
                           e.target.checked ? [...prev, c.id] : prev.filter((x) => x !== c.id),
                         )
                       }}
+                      className="h-4 w-4 accent-emerald-600"
                     />
-                    {c.nombre}
+                    <span className="text-slate-700">{c.nombre}</span>
                   </label>
                 ))}
             </div>
@@ -268,7 +270,7 @@ export default function CreditSimulation() {
 
         <div className="space-y-4">
           {result && (
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm ring-1 ring-slate-900/5">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Resumen</h2>
               <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
                 <div>
@@ -299,7 +301,7 @@ export default function CreditSimulation() {
               <div className="mt-4 flex flex-wrap gap-2">
                 <button
                   type="button"
-                  className="rounded-lg px-4 py-2 text-sm font-medium text-white"
+                  className="rounded-lg px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:brightness-95 focus:outline-none focus:ring-4 focus:ring-emerald-500/15"
                   style={{ backgroundColor: 'var(--sfici-primary)' }}
                   onClick={handlePdf}
                 >
@@ -307,24 +309,28 @@ export default function CreditSimulation() {
                 </button>
                 <button
                   type="button"
-                  className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700"
+                  className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
                   onClick={handleSaveHistory}
                 >
                   Guardar en historial
                 </button>
               </div>
               <div className="mt-4 flex items-start gap-4 border-t border-slate-100 pt-4">
-                <QRCodeSVG value={`SFICI:${simulationId}`} size={96} level="M" />
+                <QRCodeSVG value={verifyUrl} size={96} level="M" />
                 <div className="text-xs text-slate-500">
                   <p className="font-mono text-slate-700">{simulationId}</p>
-                  <p>Código de verificación de la simulación.</p>
+                  <p>
+                    Escanea el QR para verificar esta simulación.
+                    <br />
+                    Guarda en historial para que sea consultable.
+                  </p>
                 </div>
               </div>
             </div>
           )}
 
           {comparison && (
-            <div className="rounded-xl border border-sky-100 bg-sky-50/80 p-5">
+            <div className="rounded-2xl border border-emerald-200/60 bg-emerald-50/40 p-5 shadow-sm ring-1 ring-slate-900/5">
               <h2 className="text-sm font-semibold text-sky-900">Comparación francés vs alemán</h2>
               <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-sky-900/90">
                 <li>
@@ -366,7 +372,7 @@ export default function CreditSimulation() {
 
       {chartBalance.length > 0 && (
         <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm ring-1 ring-slate-900/5">
             <h3 className="text-sm font-medium text-slate-800">Saldo decreciente</h3>
             <div className="mt-4 h-64">
               <ResponsiveContainer width="100%" height="100%">
@@ -380,7 +386,7 @@ export default function CreditSimulation() {
               </ResponsiveContainer>
             </div>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm ring-1 ring-slate-900/5">
             <h3 className="text-sm font-medium text-slate-800">Capital vs interés (por período)</h3>
             <div className="mt-4 h-64">
               <ResponsiveContainer width="100%" height="100%">
@@ -400,25 +406,25 @@ export default function CreditSimulation() {
       )}
 
       {result && (
-        <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm ring-1 ring-slate-900/5">
           <table className="min-w-full text-left text-xs">
-            <thead className="border-b border-slate-100 bg-slate-50 text-slate-500">
+            <thead className="sticky top-0 z-10 border-b border-slate-200/70 bg-gradient-to-b from-white via-slate-50/90 to-slate-50 text-slate-500 backdrop-blur">
               <tr>
-                <th className="px-2 py-2">#</th>
-                <th className="px-2 py-2">Cuota</th>
-                <th className="px-2 py-2">Interés</th>
-                <th className="px-2 py-2">Capital</th>
-                <th className="px-2 py-2">Saldo</th>
+                <th className="px-4 py-3">#</th>
+                <th className="px-4 py-3">Cuota</th>
+                <th className="px-4 py-3">Interés</th>
+                <th className="px-4 py-3">Capital</th>
+                <th className="px-4 py-3">Saldo</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-slate-100">
               {result.schedule.map((r) => (
-                <tr key={r.period} className="border-b border-slate-50">
-                  <td className="px-2 py-1.5">{r.period}</td>
-                  <td className="px-2 py-1.5">{formatCurrency(r.payment)}</td>
-                  <td className="px-2 py-1.5">{formatCurrency(r.interest)}</td>
-                  <td className="px-2 py-1.5">{formatCurrency(r.principal)}</td>
-                  <td className="px-2 py-1.5">{formatCurrency(r.balance)}</td>
+                <tr key={r.period} className="odd:bg-white even:bg-slate-50/40 hover:bg-emerald-50/30 transition-colors">
+                  <td className="px-4 py-2 tabular-nums text-slate-700">{r.period}</td>
+                  <td className="px-4 py-2 tabular-nums text-slate-800">{formatCurrency(r.payment)}</td>
+                  <td className="px-4 py-2 tabular-nums text-slate-600">{formatCurrency(r.interest)}</td>
+                  <td className="px-4 py-2 tabular-nums text-slate-600">{formatCurrency(r.principal)}</td>
+                  <td className="px-4 py-2 tabular-nums font-medium text-slate-800">{formatCurrency(r.balance)}</td>
                 </tr>
               ))}
             </tbody>

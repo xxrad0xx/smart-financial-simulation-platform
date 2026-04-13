@@ -31,31 +31,59 @@ export default function InstitutionalConfig() {
         </p>
       </div>
 
-      <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <label className="block text-sm font-medium text-slate-700">Logo institucional</label>
-        <div className="flex flex-wrap items-center gap-4">
+      <div className="rounded-2xl border border-slate-200 bg-white shadow-sm ring-1 ring-slate-900/5">
+        <div className="border-b border-slate-100 px-6 py-5">
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Identidad</p>
+          <p className="mt-1 text-sm text-slate-600">Logo, colores y datos base para documentos.</p>
+        </div>
+
+        <div className="space-y-5 p-6">
+          <label className="block text-sm font-medium text-slate-700">Logo institucional</label>
+          <div className="flex flex-wrap items-center gap-4">
           {profile.logoDataUrl ? (
             <img
               src={profile.logoDataUrl}
               alt="Logo"
-              className="h-16 w-auto max-w-[200px] object-contain"
+              className="h-16 w-auto max-w-[220px] rounded-lg bg-white object-contain shadow-sm ring-1 ring-slate-900/5"
             />
           ) : (
-            <div className="flex h-16 w-32 items-center justify-center rounded-lg border border-dashed border-slate-200 text-xs text-slate-400">
+            <div className="flex h-16 w-36 items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50 text-xs font-medium text-slate-400">
               Sin logo
             </div>
           )}
           <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={onLogo} />
           <button
             type="button"
-            className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
             onClick={() => fileRef.current?.click()}
           >
             Subir imagen
           </button>
-        </div>
+          </div>
 
-        {[
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="block">
+              <span className="text-sm font-medium text-slate-700">Color primario</span>
+              <input
+                type="color"
+                className="mt-1 h-10 w-full cursor-pointer rounded-lg border border-slate-200 bg-white shadow-sm"
+                value={profile.colorPrimario}
+                onChange={(e) => setProfile({ colorPrimario: e.target.value })}
+              />
+            </label>
+            <label className="block">
+              <span className="text-sm font-medium text-slate-700">Color secundario</span>
+              <input
+                type="color"
+                className="mt-1 h-10 w-full cursor-pointer rounded-lg border border-slate-200 bg-white shadow-sm"
+                value={profile.colorSecundario}
+                onChange={(e) => setProfile({ colorSecundario: e.target.value })}
+              />
+            </label>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
           ['nombre', 'Nombre de la institución'],
           ['ruc', 'RUC o identificación legal'],
           ['direccion', 'Dirección física'],
@@ -63,41 +91,22 @@ export default function InstitutionalConfig() {
           ['email', 'Correo electrónico'],
           ['lema', 'Lema institucional'],
           ['pieDocumentos', 'Pie de página para PDF'],
-        ].map(([key, label]) => (
-          <label key={key} className="block">
-            <span className="text-sm font-medium text-slate-700">{label}</span>
-            <input
-              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-sky-500"
-              value={profile[key] ?? ''}
-              onChange={(e) => setProfile({ [key]: e.target.value })}
-            />
-          </label>
-        ))}
+            ].map(([key, label]) => (
+              <label key={key} className={key === 'pieDocumentos' ? 'sm:col-span-2' : ''}>
+                <span className="text-sm font-medium text-slate-700">{label}</span>
+                <input
+                  className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition focus:border-emerald-300 focus:ring-4 focus:ring-emerald-500/10"
+                  value={profile[key] ?? ''}
+                  onChange={(e) => setProfile({ [key]: e.target.value })}
+                />
+              </label>
+            ))}
+          </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <label className="block">
-            <span className="text-sm font-medium text-slate-700">Color primario</span>
-            <input
-              type="color"
-              className="mt-1 h-10 w-full cursor-pointer rounded-lg border border-slate-200"
-              value={profile.colorPrimario}
-              onChange={(e) => setProfile({ colorPrimario: e.target.value })}
-            />
-          </label>
-          <label className="block">
-            <span className="text-sm font-medium text-slate-700">Color secundario</span>
-            <input
-              type="color"
-              className="mt-1 h-10 w-full cursor-pointer rounded-lg border border-slate-200"
-              value={profile.colorSecundario}
-              onChange={(e) => setProfile({ colorSecundario: e.target.value })}
-            />
-          </label>
+          <div className="rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-3 text-xs text-slate-600">
+            Los cambios se guardan automáticamente en este dispositivo.
+          </div>
         </div>
-
-        <p className="text-xs text-slate-500">
-          Los cambios se guardan automáticamente en este navegador (localStorage).
-        </p>
       </div>
     </motion.div>
   )

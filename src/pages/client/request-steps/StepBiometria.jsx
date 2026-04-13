@@ -235,7 +235,7 @@ export default function StepBiometria() {
   if (loadingModels) {
     return (
       <div className="space-y-4 py-12 text-center">
-        <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-slate-300 border-t-sky-500" />
+        <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-slate-300 border-t-emerald-500" />
         <p className="text-sm text-slate-600">Cargando modelos de reconocimiento facial...</p>
         <p className="text-xs text-slate-400">Esto puede tomar unos segundos la primera vez.</p>
       </div>
@@ -246,7 +246,13 @@ export default function StepBiometria() {
     return (
       <div className="py-12 text-center">
         <p className="text-sm text-red-600">No se pudieron cargar los modelos de reconocimiento facial.</p>
-        <button type="button" className="mt-4 rounded-lg border px-4 py-2 text-sm" onClick={() => window.location.reload()}>Reintentar</button>
+        <button
+          type="button"
+          className="mt-4 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
+          onClick={() => window.location.reload()}
+        >
+          Reintentar
+        </button>
       </div>
     )
   }
@@ -273,7 +279,17 @@ export default function StepBiometria() {
       {/* Sub-step indicators */}
       <div className="flex flex-wrap gap-2">
         {SUB_STEPS.map((s, i) => (
-          <span key={s.id} className={['rounded-lg px-3 py-1.5 text-xs font-medium', subStep === i ? 'bg-slate-900 text-white' : i < subStep ? 'bg-green-100 text-green-800' : 'bg-slate-100 text-slate-500'].join(' ')}>
+          <span
+            key={s.id}
+            className={[
+              'rounded-full px-3 py-1.5 text-xs font-medium shadow-sm ring-1 ring-slate-900/5',
+              subStep === i
+                ? 'bg-slate-900 text-white'
+                : i < subStep
+                  ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                  : 'bg-slate-50 text-slate-500 border border-slate-200',
+            ].join(' ')}
+          >
             {i < subStep ? '✓ ' : ''}{s.label}
           </span>
         ))}
@@ -284,21 +300,21 @@ export default function StepBiometria() {
         <div className="space-y-4">
           <p className="text-sm font-medium text-slate-700">{previewLabels[subStep]}</p>
 
-          <div className="mx-auto overflow-hidden rounded-xl border-2 border-slate-200" style={{ maxWidth: 560 }}>
+          <div className="mx-auto overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm ring-1 ring-slate-900/5" style={{ maxWidth: 560 }}>
             <img src={preview.image} alt="Captura" className="w-full object-contain" />
           </div>
 
           <div className="flex justify-center gap-3">
             <button
               type="button"
-              className="rounded-lg border border-slate-200 px-5 py-2 text-sm text-slate-700 hover:bg-slate-50"
+              className="rounded-lg border border-slate-200 bg-white px-5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
               onClick={handleRetakePreview}
             >
               Tomar otra imagen
             </button>
             <button
               type="button"
-              className="rounded-lg px-5 py-2 text-sm font-medium text-white"
+              className="rounded-lg px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:brightness-95 focus:outline-none focus:ring-4 focus:ring-emerald-500/15"
               style={{ backgroundColor: SUB_STEPS[subStep].guideColor }}
               onClick={handleConfirmPreview}
             >
@@ -313,7 +329,7 @@ export default function StepBiometria() {
         <div className="space-y-4">
           <p className="text-sm text-slate-600">{captureLabels[subStep]}</p>
 
-          <div className="relative mx-auto overflow-hidden rounded-xl bg-black" style={{ maxWidth: 560, aspectRatio: subStep === 2 ? '3/4' : '85.6/54' }}>
+          <div className="relative mx-auto overflow-hidden rounded-2xl bg-black shadow-sm ring-1 ring-slate-900/10" style={{ maxWidth: 560, aspectRatio: subStep === 2 ? '3/4' : '85.6/54' }}>
             <video ref={videoRef} autoPlay playsInline muted className="h-full w-full object-cover" />
 
             {/* Rectangular guide for cedula */}
@@ -355,7 +371,7 @@ export default function StepBiometria() {
             <button
               type="button"
               disabled={processing}
-              className="rounded-full px-6 py-2.5 text-sm font-medium text-white disabled:opacity-50"
+              className="rounded-full px-6 py-2.5 text-sm font-medium text-white shadow-sm transition hover:brightness-95 disabled:opacity-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/15"
               style={{ backgroundColor: SUB_STEPS[subStep].guideColor }}
               onClick={handleCapture}
             >
@@ -374,7 +390,7 @@ export default function StepBiometria() {
             {ctx.selfieBase64 && <img src={ctx.selfieBase64} alt="Selfie" className="h-20 w-20 rounded-full object-cover" />}
           </div>
 
-          <div className={['rounded-xl border p-4 text-sm', ctx.biometriaAprobada ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'].join(' ')}>
+          <div className={['rounded-2xl border p-4 text-sm shadow-sm ring-1 ring-slate-900/5', ctx.biometriaAprobada ? 'border-emerald-200 bg-emerald-50/60' : 'border-red-200 bg-red-50/60'].join(' ')}>
             <p className="font-semibold" style={{ color: ctx.biometriaAprobada ? '#166534' : '#991b1b' }}>
               {ctx.biometriaAprobada ? '✓ Identidad verificada' : '✗ Identidad no verificada'}
             </p>
@@ -390,13 +406,17 @@ export default function StepBiometria() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-3">
-            <button type="button" className="rounded-lg border border-slate-200 px-4 py-2 text-sm" onClick={handleRetryAll}>
+            <button
+              type="button"
+              className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
+              onClick={handleRetryAll}
+            >
               {!ctx.biometriaAprobada ? 'Volver a capturar cédula y selfie' : 'Reintentar captura'}
             </button>
             <button
               type="button"
               disabled={submitting}
-              className="rounded-lg px-5 py-2 text-sm font-medium text-white disabled:opacity-50"
+              className="rounded-lg px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:brightness-95 disabled:opacity-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/15"
               style={{ backgroundColor: 'var(--sfici-primary)' }}
               onClick={handleSubmit}
             >
@@ -409,7 +429,13 @@ export default function StepBiometria() {
       )}
 
       <div className="flex justify-between">
-        <button type="button" className="rounded-lg border border-slate-200 px-5 py-2 text-sm" onClick={() => { stopCamera(); setPreview(null); setStep(6) }}>Anterior</button>
+        <button
+          type="button"
+          className="rounded-lg border border-slate-200 bg-white px-5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-emerald-500/10"
+          onClick={() => { stopCamera(); setPreview(null); setStep(6) }}
+        >
+          Anterior
+        </button>
         {subStep < 3 && <div />}
       </div>
     </div>

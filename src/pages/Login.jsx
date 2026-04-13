@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { useInstitution } from '../context/InstitutionalContext.jsx'
 
 export default function Login() {
-  const { login, isAuthenticated, user } = useAuth()
+  const { login, logout, isAuthenticated, user } = useAuth()
   const { profile } = useInstitution()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -19,10 +19,14 @@ export default function Login() {
 
   // If already authenticated, redirect
   useEffect(() => {
-    if (isAuthenticated && user) {
+    if (!isAuthenticated || !user) return
+    if (user.role === suggestedRole) {
       navigate(user.role === 'admin' ? '/admin' : '/cliente', { replace: true })
+      return
     }
-  }, [isAuthenticated, user, navigate])
+    // Session from another portal/role — clear it so user can log in correctly.
+    logout()
+  }, [isAuthenticated, user, suggestedRole, navigate, logout])
 
   const brand = useMemo(() => {
     const parts = String(profile.nombre || 'SFICI').split(' ')

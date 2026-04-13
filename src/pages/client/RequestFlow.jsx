@@ -48,9 +48,9 @@ function FlowContent() {
             className={[
               'rounded-full px-3 py-1 text-xs font-medium transition',
               step === s.id
-                ? 'text-white shadow'
+                ? 'text-white shadow-sm ring-1 ring-slate-900/10'
                 : s.id < step
-                  ? 'bg-white text-slate-700 ring-1 ring-slate-300 hover:bg-slate-50'
+                  ? 'bg-white text-slate-700 ring-1 ring-slate-200 shadow-sm hover:bg-slate-50 hover:ring-slate-300'
                   : 'bg-slate-100 text-slate-400 cursor-not-allowed',
             ].join(' ')}
             style={step === s.id ? { backgroundColor: 'var(--sfici-primary)' } : undefined}
@@ -66,12 +66,12 @@ function FlowContent() {
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -6 }}
-          className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
+          className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm ring-1 ring-slate-900/5"
         >
           <Suspense
             fallback={
               <div className="flex items-center justify-center py-12">
-                <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-sky-500" />
+                <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-emerald-500" />
               </div>
             }
           >
